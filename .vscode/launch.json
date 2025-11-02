@@ -2,13 +2,35 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "cppvsdbg",
+            // 🐧 Default Configuration (Used for Linux/macOS)
+            "name": "Debug (Linux/macOS)",
+            "type": "cppdbg",
             "request": "launch",
             "preLaunchTask": "Build",
-            "name": "Debug",
-            "program": "${workspaceFolder}/build/debug.exe",
+            "program": "${workspaceFolder}/build/debug", // Linux executable path
             "args": [],
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "MIMode": "gdb",
+            
+            // 💡 Your specified GDB Path
+            "miDebuggerPath": "/usr/bin/gdb", 
+            
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+
+            // 🖥️ Windows-specific override
+            "windows": {
+                // IMPORTANT: Overrides the debugger type for Windows
+                "type": "cppvsdbg", 
+                "name": "Debug (Windows)",
+                "program": "${workspaceFolder}/build/debug.exe", // Windows executable path
+                // MIMode and miDebuggerPath are NOT used by cppvsdbg
+            }
         }
     ]
 }

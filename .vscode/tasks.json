@@ -1,29 +1,49 @@
 {
     "version": "2.0.0",
-    "command": "",
-    "args": [],
     "tasks": [
-        {
-            "label": "mkdir",
-            "type": "shell",
-            "command": "cmd",
-            "args": [
-                "/C",
-                "if not exist .\\build mkdir .\\build"
-            ]
-        },
-        {
-            "label": "build",
-            "type": "shell",
-            "command": "odin build . -debug -out:build/debug.exe",
-            "group": "build"
-        },
+        // --- BUILD DEBUG ---
         {
             "label": "Build",
-            "dependsOn": [
-                "mkdir",
-                "build"
-            ]
+            "type": "shell",
+            "command": "odin",
+            "args": [
+                "build",
+                "${fileDirname}",
+                "-out:./build/debug",
+                "-debug",
+                // Cross-platform executable extension handling
+                "-collection:src=${workspaceFolder}/src",
+                "-file"
+            ],
+            "group": "build",
+            "problemMatcher": "$odin",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        // --- BUILD RELEASE ---
+        {
+            "label": "Build Release",
+            "type": "shell",
+            "command": "odin",
+            "args": [
+                "build",
+                "${fileDirname}",
+                "-out:./build/release",
+                "-opt:3",
+                "-collection:src=${workspaceFolder}/src",
+                "-file"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": "$odin",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
         }
     ]
 }
